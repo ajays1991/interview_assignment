@@ -13,6 +13,7 @@ FactoryBot.define do
     trait :provisional_approved_user do
       state { 'provisional' }
       association :user, factory: [:user, :approved]
+      association :host, factory: :host
     end
 
     trait :provisional_unapproved_user do

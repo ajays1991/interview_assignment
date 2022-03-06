@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Booking, type: :model do
-  context "Test provisional booking" do
+  context "test booking business rules" do
     let(:provisional_booking) { create(:booking, :provisional) }
 
     it "confirms the booking for user " do
@@ -44,6 +44,23 @@ RSpec.describe Booking, type: :model do
       provisional_booking.current_user = provisional_booking.user
       confirm_response = provisional_booking.confirm({confirmation_type: "sms", send_confirmation_msg: true})
       assert confirm_response, ["Booking cannot be confirmed"]
+    end
+  end
+
+  context "Test booking success with send confirmation" do
+
+    it "sends booking confirmation to user for SMS" do
+      provisional_booking = create(:booking, :provisional_approved_user)
+      provisional_booking.current_user = provisional_booking.user
+      expect_any_instance_of(SmsSender).to receive(:deliver)
+      confirm_response = provisional_booking.confirm({confirmation_type: "sms"})
+    end
+
+    it "sends booking confirmation to user for Email" do
+      provisional_booking = create(:booking, :provisional_approved_user)
+      provisional_booking.current_user = provisional_booking.user
+      expect_any_instance_of(EmailSender).to receive(:deliver)
+      confirm_response = provisional_booking.confirm({confirmation_type: "email"})
     end
   end
 end
