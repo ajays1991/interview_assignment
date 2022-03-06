@@ -7,14 +7,15 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 user = User.create!(
-  email:      'foo@bar.com',
+  email:      'foo@bar1.com',
   first_name: 'John',
   last_name:  'Smith',
-  mobile:     44123456789
+  mobile:     44123456789,
+  password: 'sharma@123'
 )
 
 host = Host.create!(
-  email:      'foo@bar.com',
+  email:      'foo@bar1.com',
   first_name: 'John',
   last_name:  'Smith',
   mobile:     44123456789
@@ -38,7 +39,7 @@ Booking.create!([
     start_time: 2.days.from_now.change(hour: 12),
     end_time:   2.days.from_now.change(hour: 12),
     user:       user,
-    host:       host
+    host:       host,
     state:      'cancelled'
   }
 ])

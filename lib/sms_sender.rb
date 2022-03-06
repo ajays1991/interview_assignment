@@ -1,14 +1,14 @@
-class SMSSender
-  def initialize(number, message)
-    @number  = number
+class SmsSender
+  def initialize(email, message)
+    @email  = email
     @message = message
   end
 
   def deliver
-    Rails.logger.info "MSG sent to #{number}"
+    Rails.logger.info "MSG sent to #{email}"
   end
 
   private
 
-  attr_reader :number, :message
+  attr_reader :email, :message
 end

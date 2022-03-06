@@ -10,8 +10,14 @@ FactoryBot.define do
       association :host
     end
 
-    trait :provisional do
+    trait :provisional_approved_user do
       state { 'provisional' }
+      association :user, factory: [:user, :approved]
+    end
+
+    trait :provisional_unapproved_user do
+      state { 'provisional' }
+      association :user, factory: :user
     end
 
     trait :confirmed do
@@ -22,6 +28,24 @@ FactoryBot.define do
 
     trait :cancelled do
       state { 'cancelled' }
+    end
+
+    trait :provisional_approved_user_expired do
+      state { 'provisional' }
+      association :user, factory: [:user, :approved]
+      start_time { DateTime.now - 2.days }
+    end
+
+    trait :confirmed_approved_user do
+      state { 'confirmed' }
+      confirmed_at { Time.current }
+      association :confirmed_by, factory: :user
+      association :user, factory: [:user, :approved]
+    end
+
+    trait :cancel_approved_user do
+      state { 'cancelled' }
+      association :user, factory: [:user, :approved]
     end
   end
 end
